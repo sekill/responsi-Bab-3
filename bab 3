@@ -1,0 +1,277 @@
+import 'package:flutter/material.dart';
+
+// Import kode logika bisnis yang sudah dibuat sebelumnya
+// Asumsikan semua kode dari artifact sebelumnya ada di file 'tongit_logic.dart'
+
+void main() {
+  runApp(const TongITApp());
+}
+
+class TongITApp extends StatelessWidget {
+  const TongITApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'TongIT Management System',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey[100],
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final List<Map<String, dynamic>> _menuItems = [
+    {
+      'title': 'Produk Digital',
+      'icon': Icons.shopping_cart,
+      'color': Colors.blue,
+      'route': '/products',
+    },
+    {
+      'title': 'Karyawan',
+      'icon': Icons.people,
+      'color': Colors.green,
+      'route': '/employees',
+    },
+    {
+      'title': 'Proyek',
+      'icon': Icons.work,
+      'color': Colors.orange,
+      'route': '/projects',
+    },
+    {
+      'title': 'Kinerja',
+      'icon': Icons.analytics,
+      'color': Colors.purple,
+      'route': '/performance',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildMenuGrid(),
+            _buildRecentActivities(),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Implementasi tambah data
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: const Row(
+        children: [
+          FlutterLogo(size: 30),
+          SizedBox(width: 10),
+          Text('TongIT Management'),
+        ],
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.notifications),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Selamat Datang di TongIT',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Sistem Manajemen Perusahaan',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuGrid() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: _menuItems.length,
+        itemBuilder: (context, index) {
+          return _buildMenuItem(_menuItems[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(Map<String, dynamic> item) {
+    return Card(
+      elevation: 4,
+      child: InkWell(
+        onTap: () {
+          // Navigasi ke halaman terkait
+        },
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+              colors: [
+                item['color'].withOpacity(0.7),
+                item['color'],
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                item['icon'],
+                size: 40,
+                color: Colors.white,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                item['title'],
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRecentActivities() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Aktivitas Terbaru',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return _buildActivityItem(index);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivityItem(int index) {
+    final List<Map<String, dynamic>> activities = [
+      {
+        'title': 'Proyek Baru Ditambahkan',
+        'subtitle': 'Sistem Otomasi Jaringan v2',
+        'icon': Icons.work_outline,
+        'time': '2 jam yang lalu',
+      },
+      {
+        'title': 'Karyawan Baru',
+        'subtitle': 'Ahmad Joined as Developer',
+        'icon': Icons.person_add,
+        'time': '3 jam yang lalu',
+      },
+      {
+        'title': 'Update Produktivitas',
+        'subtitle': 'Team Development +15%',
+        'icon': Icons.trending_up,
+        'time': '5 jam yang lalu',
+      },
+      {
+        'title': 'Produk Update',
+        'subtitle': 'Network Management Tool v3',
+        'icon': Icons.update,
+        'time': '1 hari yang lalu',
+      },
+      {
+        'title': 'Milestone Tercapai',
+        'subtitle': 'Project Alpha Phase 1 Complete',
+        'icon': Icons.flag,
+        'time': '2 hari yang lalu',
+      },
+    ];
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.blue[100],
+          child: Icon(
+            activities[index]['icon'],
+            color: Colors.blue,
+          ),
+        ),
+        title: Text(activities[index]['title']),
+        subtitle: Text(activities[index]['subtitle']),
+        trailing: Text(
+          activities[index]['time'],
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+}
